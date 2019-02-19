@@ -3,8 +3,8 @@ package autotest.protobuf;
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/yourhe/autotest/proto/stages;stages";
-// import "github.com/yourhe/grpc-gateway/policy/policy.proto";
+option go_package = "github.com/scaumiao/autotest/proto/stages;stages";
+// import "github.com/scaumiao/grpc-gateway/policy/policy.proto";
 // import "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report/report.proto";
 
 service StagesSvic {

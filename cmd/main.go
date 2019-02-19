@@ -3,7 +3,7 @@ package main
 import (
 	"io/ioutil"
 
-	autotest "github.com/yourhe/autotest"
+	autotest "github.com/scaumiao/autotest"
 )
 
 func main() {

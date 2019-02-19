@@ -12,14 +12,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yourhe/autotest/utils"
+	"github.com/scaumiao/autotest/utils"
 
 	"github.com/golang/protobuf/ptypes"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 
 	"github.com/tebeka/selenium"
-	"github.com/yourhe/autotest/parser"
+	"github.com/scaumiao/autotest/parser"
 )
 
 const (

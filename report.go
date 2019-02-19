@@ -2,7 +2,7 @@ package autotest
 
 import (
 	"github.com/golang/protobuf/ptypes"
-	"github.com/yourhe/autotest/proto/stages"
+	"github.com/scaumiao/autotest/proto/stages"
 	// "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report"
 )
 

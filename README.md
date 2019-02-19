@@ -1,7 +1,7 @@
 # autotest
 基于指令的自动化测试服务
 ```
-go get github.com/yourhe/autotest 
+go get github.com/scaumiao/autotest 
 ```
 
 cd proto && make stages
@@ -12,7 +12,7 @@ cd proto && make stages
 
 #### 2、protoc
 ```
-get -u github.com/golang/protobuf/protoc-gen-go
+go get -u github.com/golang/protobuf/protoc-gen-go
 ```
 
 #### 3、grpc-gateway
@@ -28,7 +28,7 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 
 
 ## 启动
-- 1、将vendor.zip解压放到项目上
+- 1、在release中下载vendor.zip，将vendor.zip解压放到项目上
 - 2、运行命令 `java -Dwebdriver.chrome.driver=vendor/chromedriver-mac64-2.42 -jar vendor/selenium-server-standalone-3.14.0.jar -port 53188`
 - 3、生成相关proto文件`cd proto && make stages`
 - 4、进入cmd目录启动`cd cmd && go run main.go`

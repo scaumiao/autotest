@@ -6,8 +6,8 @@ import (
 	"github.com/tebeka/selenium/log"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"github.com/yourhe/autotest/parser"
-	"github.com/yourhe/autotest/proto/stages"
+	"github.com/scaumiao/autotest/parser"
+	"github.com/scaumiao/autotest/proto/stages"
 
 	"github.com/tebeka/selenium"
 	"github.com/tebeka/selenium/chrome"
