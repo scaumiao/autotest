@@ -1,31 +1,15 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, build with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-vendor*
-.DS_Store
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/webpages/node_modules
+/node_modules
 /.pnp
 .pnp.js
 
 # testing
-/webpages/coverage
+/coverage
 
 # production
-/webpages/build
+/build
 
 # misc
 .DS_Store
