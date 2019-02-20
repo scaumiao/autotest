@@ -8,10 +8,7 @@ import (
 
 func main() {
 
-	s := autotest.NewServer()
-	defer s.Stop()
-	raw := getTestFile("../test/wf.tl")
-	s.RunTest(raw)
+	autotest.NewServer()
 
 }
 
