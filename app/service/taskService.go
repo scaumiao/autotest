@@ -1,12 +1,14 @@
 package taskService
 
 import (
+	"github.com/scaumiao/autotest/app/api"
 	taskProto "github.com/scaumiao/autotest/proto/task"
 	"github.com/scaumiao/autotest/utils"
 	"golang.org/x/net/context"
 )
 
 type Service struct {
+	Api *api.API
 }
 
 // 创建脚本
