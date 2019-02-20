@@ -30,9 +30,9 @@ type Server struct {
 	close func() error
 }
 
-func NewServer() *Server {
+func NewServer(grpcPort string, gwPort string) *Server {
 	s := Server{}
-	s.StartServ()
+	s.StartServ(grpcPort, gwPort)
 	return &s
 }
 
@@ -48,20 +48,20 @@ func (s *Server) Start() {
 	s.wd, s.close = newRemote()
 }
 
-func (s *Server) StartServ() {
+func (s *Server) StartServ(grpcPort string, gwPort string) {
 	// s.wd, s.close = newRemote()
 
 	ctx := context.Background()
-	mux, err := newGateway(ctx, ":50051")
+	mux, err := newGateway(ctx, ":"+grpcPort)
 	if err != nil {
 		fmt.Print("gw failed to listen", err)
 		return
 	}
 	http.Handle("/", mux)
 
-	go http.ListenAndServe(":8080", nil)
+	go http.ListenAndServe(":"+gwPort, nil)
 	// grpc
-	_err := s.GrpcServerStart("50051")
+	_err := s.GrpcServerStart(grpcPort)
 	if _err != nil {
 		fmt.Print("failed to listen", err)
 		return
