@@ -28,20 +28,20 @@ import {
         locations:[]
     };
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps-------------------');
-        console.log(nextProps.location);
-        console.log(this.props.location);
+        // console.log('componentWillReceiveProps-------------------');
+        // console.log(nextProps.location);
+        // console.log(this.props.location);
         if (nextProps.location !== this.props.location) {
         // navigated!
-            this.setState({
-                locations:[...this.state.locations,this.props.location]
-            })
-            console.log(this.state.locations)
+            // this.setState({
+            //     locations:[...this.state.locations,this.props.location]
+            // })
+            // console.log(this.state.locations)
         }
     }
     render() {
         const match = this.props.match;
-        // console.log(match)
+        console.log(match)
         const columns = [{
             title: '时间',
             dataIndex: 'time',
@@ -108,8 +108,9 @@ import {
             tags: ['cool', 'teacher'],
           }];
           const location = this.props.location;
-          console.log(location)
-          console.log(this.props.history)
+        //   console.log(location)
+        //   console.log(this.props.history)
+        //   console.log(this.props.match)
       return (
           <Content>
             <Header style={{ background: '#fff' }} >
@@ -118,7 +119,7 @@ import {
                 </Row> */}
                 <h3 style={{position:'relative'}}>
                     <span>运行记录</span>
-                    <Button onClick={(e)=>{this.state.locations.length?this.props.history.push(this.state.locations[0]):this.props.history.go('-1');this.setState({locations:[]})}} style={{position:'absolute',right:0,top:'15px'}} icon="left">返回</Button>
+                    <Button onClick={(e)=>{this.props.history.push({pathname:'/lists'})}} style={{position:'absolute',right:0,top:'15px'}} icon="left">返回</Button>
                 </h3>
             </Header>
             <Content style={{ margin: '0 16px' }}>
