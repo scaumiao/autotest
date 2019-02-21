@@ -30,7 +30,6 @@ type Server struct {
 
 func NewServer() *Server {
 	s := Server{}
-	s.Start()
 	return &s
 }
 
@@ -44,7 +43,6 @@ func (s *Server) GetReport() string {
 
 func (s *Server) Start() {
 	s.wd, s.close = newRemote()
-
 }
 
 func (s *Server) Stop() error {
