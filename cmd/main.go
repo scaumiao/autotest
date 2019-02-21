@@ -13,6 +13,8 @@ import (
 	autotest "github.com/scaumiao/autotest"
 	"github.com/scaumiao/autotest/app/api"
 	service "github.com/scaumiao/autotest/app/service"
+	"github.com/scaumiao/autotest/app/store"
+	"github.com/scaumiao/autotest/app/store/local"
 	taskProto "github.com/scaumiao/autotest/proto/task"
 	"google.golang.org/grpc"
 )
@@ -26,8 +28,12 @@ var gwPort = flag.String("gw_port", "8080", "grpc gateway port,default 8080")
 func main() {
 	flag.Parse()
 	autotestServ := autotest.NewServer()
+	localStore := local.NewLocalStore()
+	taskStore := store.NewTaskStore()
+	taskStore.SetStore(localStore)
 	apiServ := api.NewApi()
 	apiServ.SetTestServer(autotestServ)
+	apiServ.SetTaskStore(taskStore)
 
 	ctx := context.Background()
 	mux, err := newGateway(ctx, ":"+*grpcPort)

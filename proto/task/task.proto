@@ -1,23 +1,56 @@
 syntax = "proto3";
 package autotest.protobuf;
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 option go_package = "github.com/scaumiao/autotest/proto/task;task";
 // import "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report/report.proto";
 
 service TaskService {
-    rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+    rpc CreateTask(Task) returns (Task) {
         option (google.api.http) = {
             post: "/v1/task"
+            body: "*"
+        };
+    }
+    rpc GetTask(Task) returns (Task) {
+        option (google.api.http) = {
+            get: "/v1/task/{id}"
+        };
+    }
+    rpc GetTaskList(google.protobuf.Empty) returns (TaskList) {
+        option (google.api.http) = {
+            get: "/v1/tasks"
+        };
+    }
+    rpc DeleteTask(Task) returns (Task) {
+        option (google.api.http) = {
+            delete: "/v1/task/{id}"
+        };
+    }
+    rpc UpdateTask(Task) returns (Task) {
+        option (google.api.http) = {
+            put: "/v1/task/{id}"
             body: "*"
         };
     }
 
 }
 
-message CreateTaskRequest {
-    string name = 1;
-}
-message CreateTaskResponse {
+// message CreateTaskRequest {
+//     string name = 1;
+// }
+// message CreateTaskResponse {
+//     string id = 1;
+// }
+// message UpdateTaskRequest {
+//     string id = 1;
+//     string name = 2;
+// }
+message Task {
     string id = 1;
+    string name = 2;
+}
+message TaskList {
+    repeated Task tasks = 1;
 }
