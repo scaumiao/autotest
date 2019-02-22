@@ -2,7 +2,7 @@ syntax = "proto3";
 package autotest.protobuf;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
-
+import "proto/job/job.proto";
 option go_package = "github.com/scaumiao/autotest/proto/task;task";
 // import "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report/report.proto";
 
@@ -34,7 +34,12 @@ service TaskService {
             body: "*"
         };
     }
-
+    rpc RunTask(Task) returns (autotest.protobuf.Job){
+        option (google.api.http) = {
+            post: "/v1/task/{id}/run"
+            body: "*"
+        };
+    }
 }
 
 // message CreateTaskRequest {
@@ -50,6 +55,7 @@ service TaskService {
 message Task {
     string id = 1;
     string name = 2;
+    string script = 3;
 }
 message TaskList {
     repeated Task tasks = 1;

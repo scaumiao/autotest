@@ -1,7 +1,6 @@
 package local
 
 import (
-	"fmt"
 	"reflect"
 )
 
@@ -150,7 +149,6 @@ func findById(v reflect.Value, id string) bool {
 	}
 	if f.Kind() == reflect.String {
 		if f.String() == id {
-			fmt.Print("进")
 			return true
 		}
 	}

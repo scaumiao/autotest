@@ -22,6 +22,7 @@ define BUILDPROTO
 			-I${GOPATH}/src \
 			-I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 			-I${GOPATH}/src/github.com/protocolbuffers/protobuf/src \
+			-I${GOPATH}/src/github.com/scaumiao/autotest \
 			--go_out=plugins=grpc:${GOPATH}/src/. \
 			--plugin=$(GATEWAY_PLUGIN) \
 			--grpc-gateway_out=logtostderr=true:${GOPATH}/src/. \
@@ -72,7 +73,10 @@ stages:
 task:
 	$(call BUILDPROTO,$(PWD),$@)
 
-.PHONY: stages task
+job:
+	$(call BUILDPROTO,$(PWD),$@)
+
+.PHONY: stages task job
 
 
 # java -jar scripts/swagger-codegen-cli-2.2.3.jar generate -i ./docs/api.swagger.json -l go -o ./sdk/go/hydra/swagger
