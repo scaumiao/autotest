@@ -1,0 +1,37 @@
+syntax = "proto3";
+package autotest.protobuf;
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "proto/stages/stages.proto";
+option go_package = "github.com/scaumiao/autotest/proto/job;job";
+// import "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report/report.proto";
+
+service JobService {
+    
+    rpc GetJobList(google.protobuf.Empty) returns (JobList){
+        option (google.api.http) = {
+            get: "/v1/jobs"
+        };
+    }
+    rpc CreateJob(Job) returns (Job){
+
+    }
+    rpc UpdateJob(Job) returns (Job){
+
+    }
+}
+
+message Job {
+    string id = 1;
+    string taskId = 2;
+    string script = 3;
+    string msg = 4;
+    string result = 5;
+    google.protobuf.Timestamp start_at = 6;
+    google.protobuf.Timestamp end_at = 7;
+    repeated autotest.protobuf.Stage stages= 8;
+}
+message JobList {
+    repeated Job jobs = 1;
+}
