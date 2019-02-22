@@ -12,7 +12,6 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	autotest "github.com/scaumiao/autotest"
 	"github.com/scaumiao/autotest/app/api"
-	log "github.com/scaumiao/autotest/app/log"
 	service "github.com/scaumiao/autotest/app/service"
 	"github.com/scaumiao/autotest/app/store"
 	"github.com/scaumiao/autotest/app/store/local"
@@ -27,6 +26,13 @@ var grpcPort = flag.String("grpc_port", "50051", "grpc port,default 50051")
 var gwPort = flag.String("gw_port", "8080", "grpc gateway port,default 8080")
 
 func main() {
+
+	// logger
+	// logger.SetLevel("Debug")
+	// logger.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// logger.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// logger.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+
 	flag.Parse()
 	autotestServ := autotest.NewServer()
 	localStore := local.NewLocalStore()
@@ -50,10 +56,6 @@ func main() {
 		log.Fatal("failed to listen: ", err)
 	}
 
-	log.SetLevel("Debug")
-	log.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
-	log.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
-	log.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 }
 
 func getTestFile(path string) string {
