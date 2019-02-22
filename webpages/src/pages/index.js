@@ -13,12 +13,14 @@ Redirect
 import TestListsPage from './testLists'
 import CreateTestPage from './createTest'
 import LogTestPage from './logTest'
+//测试store
+import store from '../redux/store.js'
 const {
 Header, Content, Footer, Sider,
 } = Layout;
 
 const SubMenu = Menu.SubMenu;
-  
+
 class IndexPage extends React.Component {
     state = {
         collapsed: false,
@@ -30,7 +32,7 @@ class IndexPage extends React.Component {
     }
 
     render() {
-        console.log(this.props.match)
+        // console.log(this.props.match)
         return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider
