@@ -1,9 +1,7 @@
 package autotest
 
 import (
-	"context"
 	"fmt"
-	"net/http"
 
 	"github.com/tebeka/selenium/log"
 
@@ -32,7 +30,6 @@ type Server struct {
 
 func NewServer() *Server {
 	s := Server{}
-	s.StartServ()
 	return &s
 }
 
@@ -46,27 +43,6 @@ func (s *Server) GetReport() string {
 
 func (s *Server) Start() {
 	s.wd, s.close = newRemote()
-}
-
-func (s *Server) StartServ() {
-	// s.wd, s.close = newRemote()
-
-	ctx := context.Background()
-	mux, err := newGateway(ctx, ":50051")
-	if err != nil {
-		fmt.Print("gw failed to listen", err)
-		return
-	}
-	http.Handle("/", mux)
-
-	go http.ListenAndServe(":8080", nil)
-	// grpc
-	_err := s.GrpcServerStart("50051")
-	if _err != nil {
-		fmt.Print("failed to listen", err)
-		return
-	}
-
 }
 
 func (s *Server) Stop() error {

@@ -11,12 +11,16 @@ NavLink,
 Redirect
 } from 'react-router-dom'
 import TestListsPage from './testLists'
+import CreateTestPage from './createTest'
+import LogTestPage from './logTest'
+//测试store
+import store from '../redux/store.js'
 const {
 Header, Content, Footer, Sider,
 } = Layout;
 
 const SubMenu = Menu.SubMenu;
-  
+
 class IndexPage extends React.Component {
     state = {
         collapsed: false,
@@ -28,6 +32,7 @@ class IndexPage extends React.Component {
     }
 
     render() {
+        // console.log(this.props.match)
         return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider
@@ -66,6 +71,9 @@ class IndexPage extends React.Component {
             <Switch>
                 <Route exact path={`${this.props.match.path}`} component={TestListsPage}/>
                 <Route path={`${this.props.match.path}/about`} render={() => <Content>about:{`${this.props.match.path}/about`}</Content>}/>
+                <Route path={`${this.props.match.path}/createTest`} component={CreateTestPage} />
+                <Route path={`${this.props.match.path}/editTest/:id`} component={CreateTestPage} />
+                <Route path={`${this.props.match.path}/logTest/:id`} component={LogTestPage} />
                 <Redirect to={`${this.props.match.path}`}/>
                 <Route component={TestListsPage}/>
             </Switch>
