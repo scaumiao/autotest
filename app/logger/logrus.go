@@ -1,4 +1,4 @@
-package log
+package logger
 
 import (
 	"os"
@@ -41,7 +41,7 @@ func SetLogFormatter(formatter logrus.Formatter) {
 
 // Debug
 func Debug(info string, msg string) {
-	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		logger.Out = file
 	} else {
@@ -52,7 +52,7 @@ func Debug(info string, msg string) {
 }
 
 func Info(info string, msg string) {
-	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		logger.Out = file
 	} else {
@@ -63,7 +63,7 @@ func Info(info string, msg string) {
 }
 
 func Warn(info string, msg string) {
-	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		logger.Out = file
 	} else {
@@ -74,7 +74,7 @@ func Warn(info string, msg string) {
 }
 
 func Error(info string, msg string) {
-	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		logger.Out = file
 	} else {
@@ -85,7 +85,7 @@ func Error(info string, msg string) {
 }
 
 func Fatal(info string, msg string) {
-	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		logger.Out = file
 	} else {

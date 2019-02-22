@@ -39,4 +39,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #logfiles
-/log/files
+/app/logger/files
