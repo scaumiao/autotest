@@ -11,11 +11,22 @@ type API struct {
 	TestServer *server.Server
 	TaskStore  *store.TaskStore
 	JobStore   *store.JobStore
+	Config     GrpcConfig
 	// channel
 }
 
-func NewApi() *API {
-	api := &API{}
+type GrpcConfig struct {
+	GrpcHost string
+	GrpcPort string
+}
+
+func NewApi(grpcHost string, grpcPort string) *API {
+	api := &API{
+		Config: GrpcConfig{
+			GrpcHost: grpcHost,
+			GrpcPort: grpcPort,
+		},
+	}
 	return api
 }
 

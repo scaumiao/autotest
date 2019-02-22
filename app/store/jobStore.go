@@ -1,7 +1,7 @@
 package store
 
 import (
-	taskProto "github.com/scaumiao/autotest/proto/task"
+	jobProto "github.com/scaumiao/autotest/proto/job"
 )
 
 type JobStore struct {
@@ -17,18 +17,18 @@ func (s *JobStore) SetStore(store Store) {
 	s.store = store
 }
 
-func (s *JobStore) CreateJob(job *taskProto.Job) {
+func (s *JobStore) CreateJob(job *jobProto.Job) {
 	s.store.Write("job", &job)
 }
 
-func (s *JobStore) GetJob(id string) *taskProto.Job {
-	tmp := &taskProto.Job{}
+func (s *JobStore) GetJob(id string) *jobProto.Job {
+	tmp := &jobProto.Job{}
 	s.store.Read("job", id, &tmp)
 	return tmp
 }
 
-func (s *JobStore) UpdateJob(job *taskProto.Job) *taskProto.Job {
-	result := &taskProto.Job{}
+func (s *JobStore) UpdateJob(job *jobProto.Job) *jobProto.Job {
+	result := &jobProto.Job{}
 	s.store.Update("job", job.Id, &job, &result)
 	return result
 }
@@ -37,8 +37,8 @@ func (s *JobStore) DeleteJob(id string) {
 	s.store.Delete("job", id)
 }
 
-func (s *JobStore) GetJobList(jobList *taskProto.JobList) {
-	var total []*taskProto.Job
+func (s *JobStore) GetJobList(jobList *jobProto.JobList) {
+	var total []*jobProto.Job
 	s.store.ReadAll("job", &total)
 	jobList.Jobs = total
 }

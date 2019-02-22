@@ -1,4 +1,4 @@
-package taskService
+package service
 
 import (
 	"errors"
@@ -6,15 +6,13 @@ import (
 
 	"github.com/golang/protobuf/ptypes"
 	empty_proto "github.com/golang/protobuf/ptypes/empty"
-	"github.com/scaumiao/autotest/app/api"
+	grpcClient "github.com/scaumiao/autotest/app/client"
+	jobProto "github.com/scaumiao/autotest/proto/job"
 	taskProto "github.com/scaumiao/autotest/proto/task"
+
 	"github.com/scaumiao/autotest/utils"
 	"golang.org/x/net/context"
 )
-
-type Service struct {
-	Api *api.API
-}
 
 // 创建任务
 func (s *Service) CreateTask(ctx context.Context, task *taskProto.Task) (*taskProto.Task, error) {
@@ -70,7 +68,7 @@ func (s *Service) GetTask(ctx context.Context, task *taskProto.Task) (*taskProto
 	return data, nil
 }
 
-func (s *Service) RunTask(ctx context.Context, task *taskProto.Task) (*taskProto.Job, error) {
+func (s *Service) RunTask(ctx context.Context, task *taskProto.Task) (*jobProto.Job, error) {
 
 	// get task
 	data := s.Api.TaskStore.GetTask(task.Id)
@@ -85,32 +83,38 @@ func (s *Service) RunTask(ctx context.Context, task *taskProto.Task) (*taskProto
 	serv := s.Api.TestServer
 	serv.Start()
 	defer serv.Stop()
-	// raw := getTestFile("../test/wf.tl")
-	// fmt.Println(raw, "数据")
+
+	// connect grpc
+	cli := grpcClient.NewJobClient(s.Api.Config.GrpcHost + ":" + s.Api.Config.GrpcPort)
+	err := cli.Start()
+	if err != nil {
+		return nil, err
+	}
+	c := cli.GetJobClient()
 
 	// create job
-	id := utils.NewID()
-	job := &taskProto.Job{
-		Id:      id,
+	job, err := c.CreateJob(ctx, &jobProto.Job{
 		TaskId:  task.Id,
 		Script:  data.Script, //task.Script
 		StartAt: ptypes.TimestampNow(),
+	})
+	if err != nil {
+		return nil, err
 	}
-	s.Api.JobStore.CreateJob(job)
+
 	// run test
 	rs := serv.RunTest(data.Script)
-	// // log
+	// update job
 	job.EndAt = ptypes.TimestampNow()
 	job.Stages = rs
-	// update job
-	s.Api.JobStore.UpdateJob(job)
-	return job, nil
-}
+	j, err := c.UpdateJob(ctx, job)
+	if err != nil {
+		return nil, err
+	}
+	// stop client
+	defer cli.Stop()
 
-func (s *Service) GetJobList(ctx context.Context, empty *empty_proto.Empty) (*taskProto.JobList, error) {
-	var result = &taskProto.JobList{}
-	s.Api.JobStore.GetJobList(result)
-	return result, nil
+	return j, nil
 }
 
 func getTestFile(path string) string {

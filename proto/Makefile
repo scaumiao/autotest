@@ -73,7 +73,10 @@ stages:
 task:
 	$(call BUILDPROTO,$(PWD),$@)
 
-.PHONY: stages task
+job:
+	$(call BUILDPROTO,$(PWD),$@)
+
+.PHONY: stages task job
 
 
 # java -jar scripts/swagger-codegen-cli-2.2.3.jar generate -i ./docs/api.swagger.json -l go -o ./sdk/go/hydra/swagger
