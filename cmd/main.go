@@ -1,14 +1,18 @@
 package main
 
 import (
+	"autotest"
 	"io/ioutil"
-
-	autotest "github.com/scaumiao/autotest"
 )
 
 func main() {
 
 	autotest.NewServer()
+
+	// log.SetLevel("Debug")
+	// log.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// log.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// log.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 
 }
 
