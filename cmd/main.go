@@ -28,6 +28,13 @@ var gwPort = flag.String("gw_port", "8080", "grpc gateway port,default 8080")
 var grpcHost = "localhost"
 
 func main() {
+
+	// logger
+	// logger.SetLevel("Debug")
+	// logger.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// logger.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// logger.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+
 	flag.Parse()
 	autotestServ := autotest.NewServer()
 	localStore := local.NewLocalStore()
@@ -53,6 +60,7 @@ func main() {
 	if _err != nil {
 		log.Fatal("failed to listen: ", err)
 	}
+
 }
 
 func getTestFile(path string) string {
