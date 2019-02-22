@@ -23,6 +23,9 @@ import {
         task:{},
         type:'新增'
     };
+    _input_={
+
+    };
     handleSure(e){
         let {history} = this.props
         if (this.props.match.params.id) {
@@ -50,7 +53,8 @@ import {
                   notification.success({
                       message:this.state.type+'任务成功！'
                   })
-                  history.push({pathName:'/lists/editTest/'+res.data.id})
+                  history.push({pathname:'/lists/editTest/'+res.data.id})
+                //   history.go('-1');
               }
             })
             .catch(function (error) {
@@ -83,10 +87,10 @@ import {
             // this.setState({task:_task})
         }
     }
-    handleTaskCodeChange(e){
+    handleTaskScriptChange(e){
         if(e && e.target && e.target.value){
             let value = e.target.value;
-            this.setState({task:Object.assign({},this.state.task,{code:value})})
+            this.setState({task:Object.assign({},this.state.task,{script:value})})
         }
     }
     handleTaskPeriodChange(e){
@@ -95,8 +99,9 @@ import {
             this.setState({task:Object.assign({},this.state.task,{period:value})})
         }
     }
-    getTask(){
-        axios.get('/v1/task/'+this.props.match.params.id)
+    getTask(taskId){
+        console.log(this.props.match)
+        axios.get('/v1/task/'+taskId)
         .then((res)=>{
             console.log(res)
             if(res.status=='200'){
@@ -106,6 +111,7 @@ import {
                 this.setState({
                     task:res.data
                 })
+                // this._input_ = 
             }
         },(err)=>{
             console.error(err)
@@ -116,9 +122,21 @@ import {
             })
         })
     }
+    startTest(taskId){
+        axios.post('/v1/task/'+taskId+'/run')
+        .then((res)=>{
+            console.log(res);
+
+        })
+        .catch((err)=>{
+            notification.error({
+                message:'启动失败！'
+            })
+        })
+    }
     componentWillReceiveProps(nextProps){
         if (nextProps.match.params.id) {
-            this.getTask();
+            this.getTask(nextProps.match.params.id);
             this.setState({
                 type:'修改'
             })
@@ -129,9 +147,10 @@ import {
             })
         }
     }
+
     componentDidMount(){
         if (this.props.match.params.id) {
-            this.getTask();
+            this.getTask(this.props.match.params.id);
             this.setState({
                 type:'修改'
             })
@@ -146,7 +165,7 @@ import {
                 </Row> */}
                 <h3 style={{position:'relative'}}>
                     <span>{this.state.type}任务</span>
-                    <Button onClick={(e)=>{ alert('click!'); this.props.history.push({pathName:'/'})}} style={{position:'absolute',right:0,top:'15px'}} icon="left">返回</Button>
+                    <Button onClick={(e)=>{ this.props.history.push({pathname:'/lists'})}} style={{position:'absolute',right:0,top:'15px'}} icon="left">返回</Button>
                 </h3>
             </Header>
             <Content style={{ margin: '0 16px' }}>
@@ -165,11 +184,11 @@ import {
                     </Row>
                     <Row style={{marginTop:'15px'}}>
                         <Col span={24}>
-                            <label style={{lineHeight:'32px',textAlign:'right'}} for='taskCode'>脚本代码:</label>
+                            <label style={{lineHeight:'32px',textAlign:'right'}} for='taskScript'>脚本代码:</label>
                             <Button size='small' style={{marginLeft:'15px'}}>运行</Button>
                         </Col>
                         <Col span={24} style={{marginTop:'7px'}}>
-                            <TextArea id='taskCode' rows={8} autosize={{minRows:8}} value={this.state.task.code||''} onChange={this.handleTaskCodeChange.bind(this)}/>
+                            <TextArea id='taskScript' rows={8} autosize={{minRows:8}} value={this.state.task.script||''} onChange={this.handleTaskScriptChange.bind(this)}/>
                         </Col>
                     </Row>
                     <Row style={{marginTop:'15px'}}>

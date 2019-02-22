@@ -17,7 +17,8 @@ import axios from 'axios'
   const SubMenu = Menu.SubMenu;
   class TestListsPage extends React.Component {
     state = {
-        tasks:[]
+        tasks:[],
+        runningState:{}
     };
     componentDidMount(){
         axios.get('/v1/tasks')
@@ -41,8 +42,22 @@ import axios from 'axios'
             
         })
     }
+    startTest(taskId){
+        axios.post('/v1/task/'+taskId+'/run')
+        .then((res)=>{
+            console.log(res);
+
+        })
+        .catch((err)=>{
+            notification.error({
+                message:'启动失败！'
+            })
+        })
+    }
     render() {
         console.log(this.state.tasks)
+        let {runningState} = this.state;
+        let setState = this.setState;
       return (
           <Content>
             <Header style={{ background: '#fff' }} >
@@ -78,9 +93,7 @@ import axios from 'axios'
                                 <NavLink to={`${this.props.match.path}/editTest/`+item.id}>
                                     <Button size='small'>修改</Button>
                                 </NavLink>,
-                                <NavLink to={`${this.props.match.path}/startTest/`+item.id}>
-                                    <Button size='small'>启动</Button>
-                                </NavLink>,
+                                    <Button size='small'  onClick={(e)=>{this.startTest(item.id)}}>启动</Button>,
                                 <NavLink to={`${this.props.match.path}/delTest/`+item.id}>
                                     <Button size='small'>删除</Button>
                                 </NavLink>,
