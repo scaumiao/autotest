@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-    Layout, Menu, Breadcrumb, Icon,List,Skeleton,Button,Row, Col
+    Layout, Menu, Breadcrumb, Icon,List,Skeleton,Button,Row, Col,notification
   } from 'antd';
-
+import axios from 'axios'
   import {
     BrowserRouter as Router,
     Route,
@@ -15,41 +15,34 @@ import {
     Header, Content, Footer, Sider,
   } = Layout;
   const SubMenu = Menu.SubMenu;
-  const list = [{
-    id:'3',  
-    name:'test1'
-  },{
-    id:'3',  
-    name:'test2'
-  },{
-    id:'3',
-    name:'test1'
-},{
-    id:'3',
-    name:'test2'
-},{
-    id:'3',
-    name:'test1'
-},{
-    id:'3',
-    name:'test2'
-},{
-    id:'3',
-    name:'test1'
-},{
-    id:'3',
-    name:'test2'
-},{
-    id:'3',
-    name:'test1'
-},{
-    id:'3',
-    name:'test2'
-}]
   class TestListsPage extends React.Component {
     state = {
+        tasks:[]
     };
+    componentDidMount(){
+        axios.get('/v1/tasks')
+        .then((res)=>{
+            console.log(res)
+            if(res.status=='200'){
+                notification.success({
+                    message:'获取列表成功！'
+                })
+                this.setState({
+                    tasks:res.data.tasks
+                })
+            }
+        },(err)=>{
+            console.error(err)
+        })
+        .catch((err)=>{
+            notification.error({
+                message:'获取列表失败'
+            })
+            
+        })
+    }
     render() {
+        console.log(this.state.tasks)
       return (
           <Content>
             <Header style={{ background: '#fff' }} >
@@ -72,12 +65,12 @@ import {
                 <List
                     className="demo-loadmore-list"
                     itemLayout="horizontal"
-                    dataSource={list}
+                    dataSource={this.state.tasks}
                     pagination={{
                         onChange: (page) => {
                         //   console.log(page);
                         },
-                        pageSize: 5,
+                        pageSize: 20,
                       }}
                     renderItem={item => (
                         <List.Item actions={
