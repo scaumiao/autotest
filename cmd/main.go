@@ -12,6 +12,7 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	autotest "github.com/scaumiao/autotest"
 	"github.com/scaumiao/autotest/app/api"
+	logger "github.com/scaumiao/autotest/app/log"
 	service "github.com/scaumiao/autotest/app/service"
 	"github.com/scaumiao/autotest/app/store"
 	"github.com/scaumiao/autotest/app/store/local"
@@ -40,12 +41,16 @@ func main() {
 	localStore := local.NewLocalStore()
 	taskStore := store.NewTaskStore()
 	jobStore := store.NewJobStore()
+	logServ := logger.NewLoggerServer()
+	logrusLogger := logger.NewLogrusLogger()
+	logServ.SetLogger(logrusLogger)
 	taskStore.SetStore(localStore)
 	jobStore.SetStore(localStore)
 	apiServ := api.NewApi(grpcHost, *grpcPort)
 	apiServ.SetTestServer(autotestServ)
 	apiServ.SetTaskStore(taskStore)
 	apiServ.SetJobStore(jobStore)
+	apiServ.SetLogServer(logServ)
 
 	ctx := context.Background()
 	mux, err := newGateway(ctx, ":"+*grpcPort)

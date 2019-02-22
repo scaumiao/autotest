@@ -2,6 +2,7 @@ package api
 
 import (
 	server "github.com/scaumiao/autotest"
+	logger "github.com/scaumiao/autotest/app/log"
 	"github.com/scaumiao/autotest/app/store"
 )
 
@@ -11,6 +12,7 @@ type API struct {
 	TestServer *server.Server
 	TaskStore  *store.TaskStore
 	JobStore   *store.JobStore
+	LogServer  *logger.LogServer
 	Config     GrpcConfig
 	// channel
 }
@@ -38,4 +40,7 @@ func (api *API) SetTaskStore(s *store.TaskStore) {
 }
 func (api *API) SetJobStore(s *store.JobStore) {
 	api.JobStore = s
+}
+func (api *API) SetLogServer(s *logger.LogServer) {
+	api.LogServer = s
 }
