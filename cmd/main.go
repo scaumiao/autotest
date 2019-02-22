@@ -1,10 +1,6 @@
 package main
 
 import (
-<<<<<<< HEAD
-	"autotest"
-	"io/ioutil"
-=======
 	"context"
 	"flag"
 	"fmt"
@@ -16,12 +12,12 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	autotest "github.com/scaumiao/autotest"
 	"github.com/scaumiao/autotest/app/api"
+	log "github.com/scaumiao/autotest/app/log"
 	service "github.com/scaumiao/autotest/app/service"
 	"github.com/scaumiao/autotest/app/store"
 	"github.com/scaumiao/autotest/app/store/local"
 	taskProto "github.com/scaumiao/autotest/proto/task"
 	"google.golang.org/grpc"
->>>>>>> develop
 )
 
 type Server struct {
@@ -29,7 +25,6 @@ type Server struct {
 
 var grpcPort = flag.String("grpc_port", "50051", "grpc port,default 50051")
 var gwPort = flag.String("gw_port", "8080", "grpc gateway port,default 8080")
-
 
 func main() {
 	flag.Parse()
@@ -55,10 +50,10 @@ func main() {
 		log.Fatal("failed to listen: ", err)
 	}
 
-	// log.SetLevel("Debug")
-	// log.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
-	// log.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
-	// log.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	log.SetLevel("Debug")
+	log.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	log.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	log.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 }
 
 func getTestFile(path string) string {
