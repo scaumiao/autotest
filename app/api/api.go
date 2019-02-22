@@ -10,6 +10,8 @@ import (
 type API struct {
 	TestServer *server.Server
 	TaskStore  *store.TaskStore
+	JobStore   *store.JobStore
+	// channel
 }
 
 func NewApi() *API {
@@ -22,4 +24,7 @@ func (api *API) SetTestServer(s *server.Server) {
 }
 func (api *API) SetTaskStore(s *store.TaskStore) {
 	api.TaskStore = s
+}
+func (api *API) SetJobStore(s *store.JobStore) {
+	api.JobStore = s
 }

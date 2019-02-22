@@ -22,6 +22,7 @@ define BUILDPROTO
 			-I${GOPATH}/src \
 			-I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 			-I${GOPATH}/src/github.com/protocolbuffers/protobuf/src \
+			-I${GOPATH}/src/github.com/scaumiao/autotest \
 			--go_out=plugins=grpc:${GOPATH}/src/. \
 			--plugin=$(GATEWAY_PLUGIN) \
 			--grpc-gateway_out=logtostderr=true:${GOPATH}/src/. \

@@ -30,10 +30,13 @@ func main() {
 	autotestServ := autotest.NewServer()
 	localStore := local.NewLocalStore()
 	taskStore := store.NewTaskStore()
+	jobStore := store.NewJobStore()
 	taskStore.SetStore(localStore)
+	jobStore.SetStore(localStore)
 	apiServ := api.NewApi()
 	apiServ.SetTestServer(autotestServ)
 	apiServ.SetTaskStore(taskStore)
+	apiServ.SetJobStore(jobStore)
 
 	ctx := context.Background()
 	mux, err := newGateway(ctx, ":"+*grpcPort)

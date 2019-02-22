@@ -2,7 +2,8 @@ syntax = "proto3";
 package autotest.protobuf;
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
-
+import "google/protobuf/timestamp.proto";
+import "proto/stages/stages.proto";
 option go_package = "github.com/scaumiao/autotest/proto/task;task";
 // import "gitlab.iyorhe.com/wfgz/reverseproxy/proto/autotest/report/report.proto";
 
@@ -34,7 +35,17 @@ service TaskService {
             body: "*"
         };
     }
-
+    rpc RunTask(Task) returns (Job){
+        option (google.api.http) = {
+            post: "/v1/task/{id}/run"
+            body: "*"
+        };
+    }
+    rpc GetJobList(google.protobuf.Empty) returns (JobList){
+        option (google.api.http) = {
+            get: "/v1/jobs"
+        };
+    }
 }
 
 // message CreateTaskRequest {
@@ -50,7 +61,21 @@ service TaskService {
 message Task {
     string id = 1;
     string name = 2;
+    string script = 3;
 }
 message TaskList {
     repeated Task tasks = 1;
+}
+message Job {
+    string id = 1;
+    string taskId = 2;
+    string script = 3;
+    string msg = 4;
+    string result = 5;
+    google.protobuf.Timestamp start_at = 6;
+    google.protobuf.Timestamp end_at = 7;
+    repeated autotest.protobuf.Stage stages= 8;
+}
+message JobList {
+    repeated Job jobs = 1;
 }
