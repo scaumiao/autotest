@@ -12,6 +12,7 @@ var logger = logrus.New()
 type Fields logrus.Fields
 
 func SetLevel(level string) {
+	// 设置需要些如日志的级别，大于这个级别的日志才会被记录
 	switch {
 	case level == "Debug":
 		logger.SetLevel(logrus.DebugLevel)
@@ -26,195 +27,55 @@ func SetLevel(level string) {
 	}
 }
 
-func SetLogFormatter(formatter logrus.Formatter) {
-	logger.Formatter = formatter
+func SetLogFormatter(formatter string) {
+	// 设置日志输出的格式，暂定了两个格式，JSON和Text
+	switch {
+	case formatter == "JSON":
+		logger.Formatter = &logrus.JSONFormatter{}
+	case formatter == "Text":
+		logger.Formatter = &logrus.TextFormatter{}
+	}
+
 }
 
-// Debug
-// func Debug(args ...interface{}) {
-// 	if logger.Level >= logrus.DebugLevel {
-// 		entry := logger.WithFields(logrus.Fields{})
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Debug(args)
-// 	}
-// }
-
-// Debug
-func Debug(info string, msg string) {
-	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err == nil {
-		logger.Out = file
-	} else {
-		logger.Info("Failed to log to file, using default stderr")
+func SetOutput(Type string) {
+	// 设置日志的输出方式，暂定两种方式，输出到文件或者是控制台
+	switch {
+	case Type == "file":
+		file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err == nil {
+			logger.Out = file
+		} else {
+			logger.Info("Failed to log to file, using default stderr")
+		}
+	case Type == "os.Stdout":
+		logger.Out = os.Stdout
 	}
+}
+
+func init() {
+	// 初始化
+	SetLevel("Debug")
+	SetLogFormatter("JSON")
+	SetOutput("file")
+}
+
+func Debug(info string, msg string) {
 	logger.WithFields(logrus.Fields{"info": info}).Debug(msg)
-	defer file.Close()
 }
 
 func Info(info string, msg string) {
-	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err == nil {
-		logger.Out = file
-	} else {
-		logger.Info("Failed to log to file, using default stderr")
-	}
 	logger.WithFields(logrus.Fields{"info": info}).Info(msg)
-	defer file.Close()
 }
 
 func Warn(info string, msg string) {
-	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err == nil {
-		logger.Out = file
-	} else {
-		logger.Info("Failed to log to file, using default stderr")
-	}
 	logger.WithFields(logrus.Fields{"info": info}).Warn(msg)
-	defer file.Close()
 }
 
 func Error(info string, msg string) {
-	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err == nil {
-		logger.Out = file
-	} else {
-		logger.Info("Failed to log to file, using default stderr")
-	}
 	logger.WithFields(logrus.Fields{"info": info}).Error(msg)
-	defer file.Close()
 }
 
 func Fatal(info string, msg string) {
-	file, err := os.OpenFile("../app/logger/files/logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err == nil {
-		logger.Out = file
-	} else {
-		logger.Info("Failed to log to file, using default stderr")
-	}
 	logger.WithFields(logrus.Fields{"info": info}).Fatal(msg)
-	defer file.Close()
 }
-
-// // 带有field的Debug
-// func DebugWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.DebugLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Debug(l)
-// 	}
-// }
-
-// // Info
-// // func Info(args ...interface{}) {
-// // 	if logger.Level >= logrus.InfoLevel {
-// // 		entry := logger.WithFields(logrus.Fields{})
-// // 		entry.Data["file"] = fileInfo(2)
-// // 		entry.Info(args...)
-// // 	}
-// // }
-
-// // 带有field的Info
-// func InfoWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.InfoLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Info(l)
-// 	}
-// }
-
-// // Warn
-// func Warn(args ...interface{}) {
-// 	if logger.Level >= logrus.WarnLevel {
-// 		entry := logger.WithFields(logrus.Fields{})
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Warn(args...)
-// 	}
-// }
-
-// // 带有Field的Warn
-// func WarnWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.WarnLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Warn(l)
-// 	}
-// }
-
-// // Error
-// func Error(args ...interface{}) {
-// 	if logger.Level >= logrus.ErrorLevel {
-// 		entry := logger.WithFields(logrus.Fields{})
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Error(args...)
-// 	}
-// }
-
-// // 带有Fields的Error
-// func ErrorWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.ErrorLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Error(l)
-// 	}
-// }
-
-// // Fatal
-// func Fatal(args ...interface{}) {
-// 	if logger.Level >= logrus.FatalLevel {
-// 		entry := logger.WithFields(logrus.Fields{})
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Fatal(args...)
-// 	}
-// }
-
-// // 带有Field的Fatal
-// func FatalWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.FatalLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Fatal(l)
-// 	}
-// }
-
-// // Panic
-// func Panic(args ...interface{}) {
-// 	if logger.Level >= logrus.PanicLevel {
-// 		entry := logger.WithFields(logrus.Fields{})
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Panic(args...)
-// 	}
-// }
-
-// // 带有Field的Panic
-// func PanicWithFields(l interface{}, f Fields) {
-// 	if logger.Level >= logrus.PanicLevel {
-// 		entry := logger.WithFields(logrus.Fields(f))
-// 		entry.Data["file"] = fileInfo(2)
-// 		entry.Panic(l)
-// 	}
-// }
-
-// func fileInfo(skip int) string {
-// 	_, file, line, ok := runtime.Caller(skip)
-// 	if !ok {
-// 		file = "../log/files/logrus.log"
-// 		line = 1
-// 	} else {
-// 		slash := strings.LastIndex(file, "/")
-// 		if slash >= 0 {
-// 			file = file[slash+1:]
-// 		}
-// 	}
-// 	return fmt.Sprintf("%s:%d", file, line)
-// }
-
-// func Logger(Fields, msg string) {
-// 	file, err := os.OpenFile("../log/files/logrus.log", os.O_CREATE|os.O_WRONLY, 0666)
-// 	if err == nil {
-// 		logger.Out = file
-// 	} else {
-// 		logger.Info("Failed to log to file, using default stderr")
-// 	}
-// 	logger.WithFields(logrus.Fields{}).Info(msg)
-// 	defer file.Close()
-// }
