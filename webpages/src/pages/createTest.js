@@ -20,8 +20,10 @@ import {
   const { TextArea } = Input;
   class CreateTestPage extends React.Component {
     state = {
-        task:{},
-        type:'新增'
+        task:{
+        },
+        type:'新增',
+        test:''
     };
     _input_={
 
@@ -67,31 +69,31 @@ import {
     }
     
     handleTaskNameChange(e){
-        if(e && e.target && e.target.value){
+        // if(e && e.target && e.target.value){
             let value = e.target.value;
-            this.setState((state, props) => {
-                console.log(value)
-                // let _task =Object.assign({},state.task,{name:''})
-                //     console.log(_task)
-                //   _task.name = value;
-                state.task.name = value;
-                let _task = {...state.task}
-                _task.name = value;
-                    console.log(_task)
-                  return {task:_task}
-              });
-            // console.log(value)
-            //   let _task =Object.assign({},this.state.task)
-            //   console.log(_task)
-            //     _task.name = value;
-            // this.setState({task:_task})
-        }
+            console.log(value);
+            // if(e && e.target && e.target.value){
+                // let value = e.target.value;
+                this.setState(function(state,prop){
+                    let task = Object.assign({},{...state.task},{name:value})
+                    console.log(task)
+                    return {
+                        task
+                    }
+                })
+            // }
+        // }
     }
     handleTaskScriptChange(e){
-        if(e && e.target && e.target.value){
+        // if(e && e.target && e.target.value){
             let value = e.target.value;
-            this.setState({task:Object.assign({},this.state.task,{script:value})})
-        }
+            this.setState(function(state,prop){
+                let task = Object.assign({},{...state.task},{script:value})
+                return {
+                    task
+                }
+            })
+        // }
     }
     handleTaskPeriodChange(e){
         if(e && e.target && e.target.value){
@@ -99,6 +101,14 @@ import {
             this.setState({task:Object.assign({},this.state.task,{period:value})})
         }
     }
+    // handleClick(e){
+    //     let value = e.target.value;
+    //     console.log(value);
+    //     this.setState({
+    //         test:value
+    //     })
+
+    // }
     getTask(taskId){
         console.log(this.props.match)
         axios.get('/v1/task/'+taskId)
@@ -157,6 +167,8 @@ import {
         }
     }
     render() {
+        let {name,script} = this.state.task;
+        let {test}=this.state;
       return (
           <Content>
             <Header style={{ background: '#fff' }} >
@@ -176,19 +188,20 @@ import {
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                     <Row>
                         <Col span={6}>
-                            <label style={{lineHeight:'32px',textAlign:'right'}} for='taskName'>任务名:</label>
+                            <label style={{lineHeight:'32px',textAlign:'right'}} >任务名:</label>
                         </Col>
                         <Col span={18}>
-                            <Input id='taskName' placeholder="请输入任务名" value={this.state.task.name||''} onChange={this.handleTaskNameChange.bind(this)}/>
+                            <Input id='taskName' placeholder="请输入任务名" value={this.state.task.name} allowClear onChange={this.handleTaskNameChange.bind(this)}/>
                         </Col>
                     </Row>
                     <Row style={{marginTop:'15px'}}>
+                        {/* <Input value={test} onChange={this.handleClick.bind(this)}/> */}
                         <Col span={24}>
                             <label style={{lineHeight:'32px',textAlign:'right'}} for='taskScript'>脚本代码:</label>
                             <Button size='small' style={{marginLeft:'15px'}}>运行</Button>
                         </Col>
                         <Col span={24} style={{marginTop:'7px'}}>
-                            <TextArea id='taskScript' rows={8} autosize={{minRows:8}} value={this.state.task.script||''} onChange={this.handleTaskScriptChange.bind(this)}/>
+                            <TextArea id='taskScript' rows={8} autosize={{minRows:8}} value={this.state.task.script} onChange={this.handleTaskScriptChange.bind(this)}/>
                         </Col>
                     </Row>
                     <Row style={{marginTop:'15px'}}>
