@@ -1,15 +1,25 @@
 package logger
 
 type Logger interface {
-	Info(string)
-	Debug(string)
-	Warn(string)
-	Error(string)
-	Fatal(string)
+	Info(interface{}, string)
+	Debug(interface{}, string)
+	Warn(interface{}, string)
+	Error(interface{}, string)
+	Fatal(interface{}, string)
+	SetLevel(string)
+	SetLogFormatter(string)
+	SetOutput(string)
+	NewLogrusLogger()
 }
 
 type LogServer struct {
 	Logger Logger
+}
+
+func (serv *LogServer) init() {
+	serv.Logger.SetLevel("Info")
+	serv.Logger.SetLogFormatter("JSON")
+	serv.Logger.SetOutput("file")
 }
 
 func NewLoggerServer() *LogServer {
@@ -20,20 +30,32 @@ func NewLoggerServer() *LogServer {
 func (serv *LogServer) SetLogger(logger Logger) {
 	serv.Logger = logger
 }
-func (serv *LogServer) Info(msg string) {
-	serv.Logger.Info(msg)
+func (serv *LogServer) Info(arg interface{}, msg string) {
+	serv.Logger.Info(arg, msg)
 }
-func (serv *LogServer) Debug(msg string) {
-	serv.Logger.Debug(msg)
+func (serv *LogServer) Debug(arg interface{}, msg string) {
+	serv.Logger.Debug(arg, msg)
 }
-func (serv *LogServer) Warn(msg string) {
-	serv.Logger.Warn(msg)
+func (serv *LogServer) Warn(arg interface{}, msg string) {
+	serv.Logger.Warn(arg, msg)
 }
-func (serv *LogServer) Error(msg string) {
-	serv.Logger.Error(msg)
+func (serv *LogServer) Error(arg interface{}, msg string) {
+	serv.Logger.Error(arg, msg)
 }
-func (serv *LogServer) Fatal(msg string) {
-	serv.Logger.Fatal(msg)
+func (serv *LogServer) Fatal(arg interface{}, msg string) {
+	serv.Logger.Fatal(arg, msg)
+}
+
+func (serv *LogServer) SetLevel(level string) {
+	serv.Logger.SetLevel(level)
+}
+
+func (serv *LogServer) SetLogFormatter(formatter string) {
+	serv.Logger.SetLogFormatter(formatter)
+}
+
+func (serv *LogServer) SetOutput(Type string) {
+	serv.Logger.SetOutput(Type)
 }
 
 // 封装logrus.Fields

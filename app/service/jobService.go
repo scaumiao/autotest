@@ -11,7 +11,7 @@ import (
 func (s *Service) GetJobList(ctx context.Context, empty *empty_proto.Empty) (*jobProto.JobList, error) {
 	var result = &jobProto.JobList{}
 	s.Api.JobStore.GetJobList(result)
-	s.Api.LogServer.Info("GetJobList success")
+	s.Api.LogServer.Info(result, "GetJobList success")
 	return result, nil
 }
 func (s *Service) CreateJob(ctx context.Context, job *jobProto.Job) (*jobProto.Job, error) {
@@ -23,7 +23,7 @@ func (s *Service) CreateJob(ctx context.Context, job *jobProto.Job) (*jobProto.J
 		StartAt: ptypes.TimestampNow(),
 	}
 	s.Api.JobStore.CreateJob(_job)
-	s.Api.LogServer.Info("CreateJob")
+	s.Api.LogServer.Info(_job, "CreateJob")
 	return _job, nil
 }
 

@@ -12,7 +12,7 @@ import (
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	autotest "github.com/scaumiao/autotest"
 	"github.com/scaumiao/autotest/app/api"
-	logger "github.com/scaumiao/autotest/app/logger"
+	_ "github.com/scaumiao/autotest/app/log"
 	service "github.com/scaumiao/autotest/app/service"
 	"github.com/scaumiao/autotest/app/store"
 	"github.com/scaumiao/autotest/app/store/local"
@@ -31,9 +31,8 @@ var grpcHost = "localhost"
 func main() {
 
 	// logger
-	logger.SetLevel("Debug")
-	logger.SetLogFormatter("JSON")
-	logger.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
+	// logger.SetLogFormatter("JSON")
+	// logger.Debug("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 	// logger.Info("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 	// logger.Warn("{'request_id':123,'user_ip':10.18.105.2}", "zenmeban")
 
@@ -44,7 +43,8 @@ func main() {
 	jobStore := store.NewJobStore()
 	// logServ := logger.NewLoggerServer()
 	// logrusLogger := logger.NewLogrusLogger()
-	// logServ.SetLogger(logrusLogger)
+	// logServ.SetLevel("Info")
+	// logServ.Debug(_job, "hehehe")
 	// taskStore.SetStore(localStore)
 	jobStore.SetStore(localStore)
 	apiServ := api.NewApi(grpcHost, *grpcPort)
